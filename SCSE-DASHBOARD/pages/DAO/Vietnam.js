@@ -1,6 +1,6 @@
-window.addEventListener('load', loadData)
+window.addEventListener('load', getData)
 
-async function loadData() {
+async function getData() {
     fetch("https://owsnews.herokuapp.com/covid")
         .then(function (response) {
             return response.json();
@@ -13,12 +13,15 @@ async function loadData() {
                 tongtuvong += Number(response.data[i].tong_tuvong.replace(/\./g, ''));
                 tongcanhiem += Number(response.data[i].tong_nhiem.replace(/\./g, ''));
             }
-            var html = response.map(function (response) {
+            $('#nguon').text(response.source_covid);
+            $('#tongsocanhiem').text(tongcanhiem);
+            $('#tongsotuvong').text(tongtuvong);
+            let html = response.data.map(function (response) {
                 return `<tr>
                     <td>${response.tinh}</td>
                     <td>${response.tong_nhiem}</td>
-                    <td>${response.nhiem}</td>
-                    <td>${response.tong_tuvong}</td>
+                    <td><div class="badge badge-opacity-warning">${response.nhiem}</div></td>
+                    <td><div class="badge badge-opacity-danger">${response.tong_tuvong}</div></td>
                     </tr>`;
                     })
                     document.getElementById("tbody").innerHTML = html.join('');
