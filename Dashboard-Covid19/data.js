@@ -69,9 +69,6 @@
               type: "text",
               width: 100
             },
-            {
-              type: "control"
-            }
             ]
           });
         }
