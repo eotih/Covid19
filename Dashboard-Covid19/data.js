@@ -2,77 +2,68 @@
   'use strict';
   $(function () {
     fetch("https://static.pipezero.com/covid/data.json")
-    .then(function (response){
-      return response.json();
-    })
-    .then(function (response){
-      $('#tongsocathegioi').text(response.total.world.cases.toLocaleString() +" Ca nhiễm");
-      $('#tongsocahoiphuctrongnuoc').text(response.total.internal.recovered.toLocaleString() +" Ca hồi phục");
-      $('#tongsocahoiphucthegioi').text(response.total.world.recovered.toLocaleString() +" Ca hồi phục");
-    })
-    fetch("https://owsnews.herokuapp.com/covid")
       .then(function (response) {
         return response.json();
       })
       .then(function (response) {
-        var $tongtuvong = 0;
-        var $tongcanhiem = 0;
-        for (let i = 0; i < response.data.length; i++) {
-          $tongtuvong += Number(response.data[i].tong_tuvong.replace(/\./g, ''));
-          $tongcanhiem += Number(response.data[i].tong_nhiem.replace(/\./g, ''));
-        }
-        $('#nguon').text(response.source_covid);
-        $('#tongsocanhiem').text($tongcanhiem.toLocaleString() +" Ca nhiễm");
-        $('#tongsotuvong').text($tongtuvong.toLocaleString() +" Ca tử vong");
-        var $hieu = response.data;
-        if ($("#js-grid").length) {
-          $("#js-grid").jsGrid({
+        console.log(response)
+        if ($("#js-grid-sortable").length) {
+          $("#js-grid-sortable").jsGrid({
             height: "600px",
             width: "100%",
             filtering: true,
-            //editing: true,
-            //inserting: true,
             sorting: true,
             paging: true,
             autoload: true,
             pageSize: 10,
             pageButtonCount: 5,
             deleteConfirm: "Do you really want to delete the client?",
-            data: $hieu,
-            fields: [{
-              title: "Tỉnh",
-              name: "tinh",
-              type: "text",
-              width: 200
-            },
-            {
-              title: "Ca nhiễm",
-              name: "nhiem",
-              type: "number",
-              width: 100
-            },
-            {
-              title: "Tử vong",
-              name: "tuvong",
-              type: "text",
-              width: 100
-            },
-            {
-              title: "Tổng nhiễm",
-              name: "tong_nhiem",
-              type: "number",
-              width: 100
-            },
-            {
-              title: "Tổng tử vong",
-              name: "tong_tuvong",
-              type: "text",
-              width: 100
-            },
+            data: response.locations,
+            fields: [
+              {
+                title: "Tỉnh/TP",
+                name: "name",
+                type: "text",
+                width: 200
+              },
+              {
+                title: "Tổng số ca",
+                name: "cases",
+                type: "number",
+                width: 100
+              },
+              {
+                title: "Tử vong",
+                name: "casesToday",
+                type: "number",
+                width: 100
+              },
+              {
+                title: "Tử vong",
+                name: "death",
+                type: "text",
+                width: 100
+              },
             ]
           });
         }
+        if ($("#sort").length) {
+          $("#sort").on("click", function () {
+            var field = $("#sortingField").val();
+            $("#js-grid-sortable").jsGrid("sort", field);
+          });
+        }
 
+        $('#canhiemhomnay').text(response.today.internal.cases.toLocaleString());
+        $('#tuvonghomnay').text(response.today.internal.death.toLocaleString());
+        $('#tongsocanhiem').text(response.total.internal.cases.toLocaleString());
+        $('#tongsotuvong').text(response.total.internal.death.toLocaleString());
+        $('#hoiphuchomnay').text(response.today.internal.recovered.toLocaleString());
+        $('#hoiphuchomnaytg').text(response.today.world.recovered.toLocaleString());
+        $('#canhiemhomnaytg').text(response.today.world.cases.toLocaleString());
+        $('#tongsocathegioi').text(response.total.world.cases.toLocaleString());
+        $('#tongsocahoiphuctrongnuoc').text(response.total.internal.recovered.toLocaleString());
+        $('#tongsocahoiphucthegioi').text(response.total.world.recovered.toLocaleString());
       })
   });
 })(jQuery);
