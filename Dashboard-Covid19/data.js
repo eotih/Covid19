@@ -32,7 +32,7 @@
                 width: 100
               },
               {
-                title: "Tử vong",
+                title: "Hôm nay",
                 name: "casesToday",
                 type: "number",
                 width: 100
@@ -57,11 +57,14 @@
         $('#canhiemhomnay').text(response.today.internal.cases.toLocaleString());
         $('#tuvonghomnay').text(response.today.internal.death.toLocaleString());
         $('#hoiphuchomnay').text(response.today.internal.recovered.toLocaleString());
+        
         $('#hoiphuchomnaytg').text(response.today.world.recovered.toLocaleString());
         $('#canhiemhomnaytg').text(response.today.world.cases.toLocaleString());
+
         $('#tongsocanhiem').text(response.total.internal.cases.toLocaleString());
         $('#tongsotuvong').text(response.total.internal.death.toLocaleString());
         $('#tongsocahoiphuctrongnuoc').text(response.total.internal.recovered.toLocaleString());
+
         $('#tongsocathegioi').text(response.total.world.cases.toLocaleString());
         $('#tongsocahoiphucthegioi').text(response.total.world.recovered.toLocaleString());
       })
