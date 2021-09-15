@@ -43,22 +43,6 @@
         {
           name: "Married",
           title: "Is Married",
-          // insertTemplate: function (value) {
-          //   return this._insertPicker = $("<input>").datepicker({ defaultDate: new Date() });
-          // },
-
-          // editTemplate: function (value) {
-          //   return this._editPicker = $("<input>").datepicker().datepicker("setDate", new Date(value));
-          // },
-
-          // insertValue: function () {
-          //   return this._insertPicker.datepicker("getDate").toISOString();
-          // },
-
-          // editValue: function () {
-          //   return this._editPicker.datepicker("getDate").toISOString();
-          // },
-    
           itemTemplate: function (value, item) {
             return $("<div>")
               .addClass("form-check mt-0")
