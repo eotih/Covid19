@@ -6,7 +6,6 @@
         return response.json();
       })
       .then(function (response) {
-        console.log(response)
         if ($("#js-grid-sortable").length) {
           $("#js-grid-sortable").jsGrid({
             height: "600px",
@@ -54,16 +53,50 @@
           });
         }
 
+        getDateTime();
         $('#canhiemhomnay').text(response.today.internal.cases.toLocaleString());
         $('#tuvonghomnay').text(response.today.internal.death.toLocaleString());
-        $('#tongsocanhiem').text(response.total.internal.cases.toLocaleString());
-        $('#tongsotuvong').text(response.total.internal.death.toLocaleString());
         $('#hoiphuchomnay').text(response.today.internal.recovered.toLocaleString());
         $('#hoiphuchomnaytg').text(response.today.world.recovered.toLocaleString());
         $('#canhiemhomnaytg').text(response.today.world.cases.toLocaleString());
-        $('#tongsocathegioi').text(response.total.world.cases.toLocaleString());
+        $('#tongsocanhiem').text(response.total.internal.cases.toLocaleString());
+        $('#tongsotuvong').text(response.total.internal.death.toLocaleString());
         $('#tongsocahoiphuctrongnuoc').text(response.total.internal.recovered.toLocaleString());
+        $('#tongsocathegioi').text(response.total.world.cases.toLocaleString());
         $('#tongsocahoiphucthegioi').text(response.total.world.recovered.toLocaleString());
       })
   });
 })(jQuery);
+async function getDateTime() {
+  var date = new Date();
+  var current_day = date.getDay();
+  var day_name = '';
+  switch (current_day) {
+    case 0:
+      day_name = "Chủ nhật";
+      break;
+    case 1:
+      day_name = "Thứ hai";
+      break;
+    case 2:
+      day_name = "Thứ ba";
+      break;
+    case 3:
+      day_name = "Thứ tư";
+      break;
+    case 4:
+      day_name = "Thứ năm";
+      break;
+    case 5:
+      day_name = "Thứ sau";
+      break;
+    case 6:
+      day_name = "Thứ bảy";
+  }
+
+  var today = new Date();
+  var date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
+  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+  var dateTime = day_name + ', ' + date + ' ' + time;
+  $('#nguon').text("Nguồn: Bộ Y Tế - Cập nhật lúc  " + dateTime);
+}
