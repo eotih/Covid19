@@ -57,7 +57,7 @@
         $('#canhiemhomnay').text(response.today.internal.cases.toLocaleString());
         $('#tuvonghomnay').text(response.today.internal.death.toLocaleString());
         $('#hoiphuchomnay').text(response.today.internal.recovered.toLocaleString());
-        
+
         $('#hoiphuchomnaytg').text(response.today.world.recovered.toLocaleString());
         $('#canhiemhomnaytg').text(response.today.world.cases.toLocaleString());
 
@@ -97,10 +97,12 @@ async function getDateTime() {
     case 6:
       day_name = "Thứ bảy";
   }
+  var myVar = setInterval(function () {
+    var today = new Date();
+    var date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+    var dateTime = day_name + ', ' + date + ' ' + time;
+    $('#nguon').text("Nguồn: Bộ Y Tế - Cập nhật lúc  " + dateTime);
+  }, 500)
 
-  var today = new Date();
-  var date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
-  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
-  var dateTime = day_name + ', ' + date + ' ' + time;
-  $('#nguon').text("Nguồn: Bộ Y Tế - Cập nhật lúc  " + dateTime);
 }
