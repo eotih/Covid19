@@ -73,6 +73,7 @@
 async function getDateTime() {
   var date = new Date();
   var current_day = date.getDay();
+  console.log(current_day)
   var day_name = '';
   switch (current_day) {
     case 0:
