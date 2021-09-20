@@ -11,10 +11,17 @@
             height: "600px",
             width: "100%",
             filtering: true,
+            heading: true,
             sorting: true,
             paging: true,
             autoload: true,
             pageSize: 10,
+            // controller: {
+            //   loadData: $.noop,
+            //   insertItem: $.noop,
+            //   updateItem: $.noop,
+            //   deleteItem: $.noop
+            // },
             pageButtonCount: 5,
             deleteConfirm: "Do you really want to delete the client?",
             data: response.locations,
