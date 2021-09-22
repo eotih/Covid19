@@ -6,6 +6,10 @@
         return response.json();
       })
       .then(function (response) {
+        var data = response.locations;
+        var searchByName = data.filter(function (i, n) {
+          return i.name === 'Bình Dương' || i.name === 'TP. Hồ Chí Minh' || i.name === 'Đắk Lắk' || i.name === 'Gia Lai' || i.name === 'Bình Thuận';
+        });
         if ($("#js-grid-sortable").length) {
           $("#js-grid-sortable").jsGrid({
             height: "600px",
@@ -16,15 +20,8 @@
             paging: true,
             autoload: true,
             pageSize: 10,
-            // controller: {
-            //   loadData: $.noop,
-            //   insertItem: $.noop,
-            //   updateItem: $.noop,
-            //   deleteItem: $.noop
-            // },
             pageButtonCount: 5,
-            deleteConfirm: "Do you really want to delete the client?",
-            data: response.locations,
+            data: data,
             fields: [
               {
                 title: "Tỉnh/TP",
@@ -61,6 +58,47 @@
         }
 
         getDateTime();
+        if ($("#js-grid-sortable2").length) {
+          $("#js-grid-sortable2").jsGrid({
+            height: "600px",
+            width: "100%",
+            filtering: true,
+            heading: true,
+            sorting: true,
+            paging: true,
+            autoload: true,
+            pageSize: 10,
+            pageButtonCount: 5,
+            data: searchByName,
+            fields: [
+              {
+                title: "Tỉnh/TP",
+                name: "name",
+                type: "text",
+                width: 200
+              },
+              {
+                title: "Tổng số ca",
+                name: "cases",
+                type: "number",
+                width: 100
+              },
+              {
+                title: "Hôm nay",
+                name: "casesToday",
+                type: "number",
+                width: 100
+              },
+              {
+                title: "Tử vong",
+                name: "death",
+                type: "text",
+                width: 100
+              },
+            ]
+          });
+        }
+
         $('#canhiemhomnay').text(response.today.internal.cases.toLocaleString());
         $('#tuvonghomnay').text(response.today.internal.death.toLocaleString());
         $('#hoiphuchomnay').text(response.today.internal.recovered.toLocaleString());
@@ -74,13 +112,13 @@
 
         $('#tongsocathegioi').text(response.total.world.cases.toLocaleString());
         $('#tongsocahoiphucthegioi').text(response.total.world.recovered.toLocaleString());
+
       })
   });
 })(jQuery);
 async function getDateTime() {
   var date = new Date();
   var current_day = date.getDay();
-  console.log(current_day)
   var day_name = '';
   switch (current_day) {
     case 0:
