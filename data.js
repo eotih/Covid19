@@ -14,7 +14,6 @@
           $("#js-grid-sortable").jsGrid({
             height: "600px",
             width: "100%",
-            filtering: true,
             heading: true,
             sorting: true,
             paging: true,
@@ -62,7 +61,6 @@
           $("#js-grid-sortable2").jsGrid({
             height: "600px",
             width: "100%",
-            filtering: true,
             heading: true,
             sorting: true,
             paging: true,
