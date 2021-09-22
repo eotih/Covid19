@@ -49,14 +49,6 @@
             ]
           });
         }
-        if ($("#sort").length) {
-          $("#sort").on("click", function () {
-            var field = $("#sortingField").val();
-            $("#js-grid-sortable").jsGrid("sort", field);
-          });
-        }
-
-        getDateTime();
         if ($("#js-grid-sortable2").length) {
           $("#js-grid-sortable2").jsGrid({
             height: "600px",
@@ -97,6 +89,8 @@
           });
         }
 
+        getDateTime();
+
         $('#canhiemhomnay').text(response.today.internal.cases.toLocaleString());
         $('#tuvonghomnay').text(response.today.internal.death.toLocaleString());
         $('#hoiphuchomnay').text(response.today.internal.recovered.toLocaleString());
@@ -114,7 +108,7 @@
       })
   });
 })(jQuery);
-async function getDateTime() {
+function getDateTime() {
   var date = new Date();
   var current_day = date.getDay();
   var day_name = '';
