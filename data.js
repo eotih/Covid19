@@ -10,7 +10,6 @@
         // console.table(response.locations)
         // console.timeEnd('timer')
         var data = response.locations;
-
         //Hàm lấy dữ liệu cũ
         // var searchByName = data.filter(function (i, n) {
         //   return i.name === 'Bình Dương' || i.name === 'TP. Hồ Chí Minh' || i.name === 'Đắk Lắk' || i.name === 'Gia Lai' || i.name === 'Bình Thuận';
