@@ -6,10 +6,21 @@
         return response.json();
       })
       .then(function (response) {
+        // console.time('timer')
+        // console.table(response.locations)
+        // console.timeEnd('timer')
         var data = response.locations;
-        var searchByName = data.filter(function (i, n) {
-          return i.name === 'Bình Dương' || i.name === 'TP. Hồ Chí Minh' || i.name === 'Đắk Lắk' || i.name === 'Gia Lai' || i.name === 'Bình Thuận';
-        });
+
+        //Hàm lấy dữ liệu cũ
+        // var searchByName = data.filter(function (i, n) {
+        //   return i.name === 'Bình Dương' || i.name === 'TP. Hồ Chí Minh' || i.name === 'Đắk Lắk' || i.name === 'Gia Lai' || i.name === 'Bình Thuận';
+        // });
+        var searchByName = data.filter(v => 
+           v.name === 'Bình Dương' 
+        || v.name === 'TP. Hồ Chí Minh' 
+        || v.name === 'Đắk Lắk' 
+        || v.name === 'Gia Lai' 
+        || v.name === 'Bình Thuận')
         if ($("#js-grid-sortable").length) {
           $("#js-grid-sortable").jsGrid({
             height: "600px",
