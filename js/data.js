@@ -32,16 +32,20 @@
         return response.json();
       })
       .then(function (response) {
-        
+         
+            
+         
         var duLieuNgayThang = [];
         var duLieuSoCaNhiem = []
         var duLieuSoCaKhoi = []
+        var duLieuSoCaTuVong = []
         var data = response.locations;
         const { cases, death, recovered } = response.today.internal;
         for(let i = 0; i <7; i++) {
           duLieuNgayThang.push(response.overview[i].date);
           duLieuSoCaNhiem.push(response.overview[i].recovered);
           duLieuSoCaKhoi.push(response.overview[i].cases);
+          duLieuSoCaTuVong.push(response.overview[i].death);
         }
         var searchByName = data.filter(v => v.name === 'Bình Dương'
           || v.name === 'TP. Hồ Chí Minh'
@@ -83,7 +87,7 @@
             datasets: [{
               label: 'SỐ CA NHIỄM',
               data: duLieuSoCaNhiem,
-              backgroundColor: "#52CDFF",
+              backgroundColor: "#F89C26",
               borderColor: [
                 '#52CDFF',
               ],
@@ -213,6 +217,75 @@
             options: leaveReportOptions
           });
         }
+
+        if ($("#SoCaTuVong").length) {
+          var leaveReportChart = document.getElementById("SoCaTuVong").getContext('2d');
+          var leaveReportData = {
+            labels: duLieuNgayThang,
+            datasets: [{
+              label: 'SỐ CA TỬ VONG',
+              data: duLieuSoCaTuVong,
+              backgroundColor: "#C13016",
+              borderColor: [
+                '#52CDFF',
+              ],
+              borderWidth: 0,
+              fill: true, // 3: no fill
+
+            }]
+          };
+
+          var leaveReportOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              yAxes: [{
+                gridLines: {
+                  display: true,
+                  drawBorder: false,
+                  color: "rgba(255,255,255,.05)",
+                  zeroLineColor: "rgba(255,255,255,.05)",
+                },
+                ticks: {
+                  beginAtZero: true,
+                  autoSkip: true,
+                  maxTicksLimit: 5,
+                  fontSize: 10,
+                  color: "#6B778C"
+                }
+              }],
+              xAxes: [{
+                barPercentage: 0.5,
+                gridLines: {
+                  display: false,
+                  drawBorder: false,
+                },
+                ticks: {
+                  beginAtZero: false,
+                  autoSkip: true,
+                  maxTicksLimit: 7,
+                  fontSize: 10,
+                  color: "#6B778C"
+                }
+              }],
+            },
+            legend: false,
+
+            elements: {
+              line: {
+                tension: 0.4,
+              }
+            },
+            tooltips: {
+              backgroundColor: 'rgba(31, 59, 179, 1)',
+            }
+          }
+          var leaveReport = new Chart(leaveReportChart, {
+            type: 'bar',
+            data: leaveReportData,
+            options: leaveReportOptions
+          });
+        }
         getDateTime();
         $('#canhiemhomnay').text(cases.toLocaleString());
         $('#tuvonghomnay').text(death.toLocaleString());
@@ -230,6 +303,7 @@
 
         $('#nhiemtrungbinh7ngay').text('Trung bình 7 ngày : ' + response.overview[0].avgCases7day.toLocaleString());
         $('#khoitrungbinh7ngay').text('Trung bình 7 ngày : ' + response.overview[0].avgRecovered7day.toLocaleString());
+        $('#tuvongtrungbinh7ngay').text('Trung bình 7 ngày : ' + response.overview[0].avgDeath7day.toLocaleString());
       })
   });
 })(jQuery);
