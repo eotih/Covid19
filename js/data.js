@@ -32,16 +32,13 @@
         return response.json();
       })
       .then(function (response) {
-         
-            
-         
         var duLieuNgayThang = [];
         var duLieuSoCaNhiem = []
         var duLieuSoCaKhoi = []
         var duLieuSoCaTuVong = []
         var data = response.locations;
         const { cases, death, recovered } = response.today.internal;
-        for(let i = 0; i <7; i++) {
+        for (let i = 0; i < 7; i++) {
           duLieuNgayThang.push(response.overview[i].date);
           duLieuSoCaNhiem.push(response.overview[i].recovered);
           duLieuSoCaKhoi.push(response.overview[i].cases);
@@ -52,6 +49,7 @@
           || v.name === 'Đắk Lắk'
           || v.name === 'Gia Lai'
           || v.name === 'Bình Thuận')
+
         if ($("#js-grid-sortable").length) {
           $("#js-grid-sortable").jsGrid({
             height: "600px",
@@ -148,7 +146,6 @@
             options: leaveReportOptions
           });
         }
-
         if ($("#SoCaKhoi").length) {
           var leaveReportChart = document.getElementById("SoCaKhoi").getContext('2d');
           var leaveReportData = {
@@ -217,7 +214,6 @@
             options: leaveReportOptions
           });
         }
-
         if ($("#SoCaTuVong").length) {
           var leaveReportChart = document.getElementById("SoCaTuVong").getContext('2d');
           var leaveReportData = {
@@ -308,7 +304,6 @@
   });
 })(jQuery);
 function getDateTime() {
-
   var myVar = setInterval(function () {
     var today = new Date();
     var current_day = today.getDay();
