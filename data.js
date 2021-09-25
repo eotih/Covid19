@@ -1,4 +1,30 @@
 (function ($) {
+  const fields = [
+    {
+      title: "Tỉnh/TP",
+      name: "name",
+      type: "text",
+      width: 200
+    },
+    {
+      title: "Tổng số ca",
+      name: "cases",
+      type: "number",
+      width: 100
+    },
+    {
+      title: "Hôm nay",
+      name: "casesToday",
+      type: "number",
+      width: 100
+    },
+    {
+      title: "Tử vong",
+      name: "death",
+      type: "text",
+      width: 100
+    },
+  ]
   'use strict';
   $(function () {
     fetch("https://static.pipezero.com/covid/data.json")
@@ -6,20 +32,12 @@
         return response.json();
       })
       .then(function (response) {
-        // console.time('timer')
-        // console.table(response.locations)
-        // console.timeEnd('timer')
         var data = response.locations;
-        //Hàm lấy dữ liệu cũ
-        // var searchByName = data.filter(function (i, n) {
-        //   return i.name === 'Bình Dương' || i.name === 'TP. Hồ Chí Minh' || i.name === 'Đắk Lắk' || i.name === 'Gia Lai' || i.name === 'Bình Thuận';
-        // });
-        var searchByName = data.filter(v => 
-           v.name === 'Bình Dương' 
-        || v.name === 'TP. Hồ Chí Minh' 
-        || v.name === 'Đắk Lắk' 
-        || v.name === 'Gia Lai' 
-        || v.name === 'Bình Thuận')
+        var searchByName = data.filter(v => v.name === 'Bình Dương'
+          || v.name === 'TP. Hồ Chí Minh'
+          || v.name === 'Đắk Lắk'
+          || v.name === 'Gia Lai'
+          || v.name === 'Bình Thuận')
         if ($("#js-grid-sortable").length) {
           $("#js-grid-sortable").jsGrid({
             height: "600px",
@@ -31,32 +49,7 @@
             pageSize: 10,
             pageButtonCount: 5,
             data: data,
-            fields: [
-              {
-                title: "Tỉnh/TP",
-                name: "name",
-                type: "text",
-                width: 200
-              },
-              {
-                title: "Tổng số ca",
-                name: "cases",
-                type: "number",
-                width: 100
-              },
-              {
-                title: "Hôm nay",
-                name: "casesToday",
-                type: "number",
-                width: 100
-              },
-              {
-                title: "Tử vong",
-                name: "death",
-                type: "text",
-                width: 100
-              },
-            ]
+            fields: fields
           });
         }
         if ($("#js-grid-sortable2").length) {
@@ -70,40 +63,15 @@
             pageSize: 10,
             pageButtonCount: 5,
             data: searchByName,
-            fields: [
-              {
-                title: "Tỉnh/TP",
-                name: "name",
-                type: "text",
-                width: 200
-              },
-              {
-                title: "Tổng số ca",
-                name: "cases",
-                type: "number",
-                width: 100
-              },
-              {
-                title: "Hôm nay",
-                name: "casesToday",
-                type: "number",
-                width: 100
-              },
-              {
-                title: "Tử vong",
-                name: "death",
-                type: "text",
-                width: 100
-              },
-            ]
+            fields: fields
           });
         }
 
         getDateTime();
-
-        $('#canhiemhomnay').text(response.today.internal.cases.toLocaleString());
-        $('#tuvonghomnay').text(response.today.internal.death.toLocaleString());
-        $('#hoiphuchomnay').text(response.today.internal.recovered.toLocaleString());
+        const { cases, death, recovered } = response.today.internal;
+        $('#canhiemhomnay').text(cases.toLocaleString());
+        $('#tuvonghomnay').text(death.toLocaleString());
+        $('#hoiphuchomnay').text(recovered.toLocaleString());
 
         $('#hoiphuchomnaytg').text(response.today.world.recovered.toLocaleString());
         $('#canhiemhomnaytg').text(response.today.world.cases.toLocaleString());
@@ -119,33 +87,33 @@
   });
 })(jQuery);
 function getDateTime() {
-  var date = new Date();
-  var current_day = date.getDay();
-  var day_name = '';
-  switch (current_day) {
-    case 0:
-      day_name = "Chủ nhật";
-      break;
-    case 1:
-      day_name = "Thứ hai";
-      break;
-    case 2:
-      day_name = "Thứ ba";
-      break;
-    case 3:
-      day_name = "Thứ tư";
-      break;
-    case 4:
-      day_name = "Thứ năm";
-      break;
-    case 5:
-      day_name = "Thứ sau";
-      break;
-    case 6:
-      day_name = "Thứ bảy";
-  }
+
   var myVar = setInterval(function () {
     var today = new Date();
+    var current_day = today.getDay();
+    var day_name = '';
+    switch (current_day) {
+      case 0:
+        day_name = "Chủ nhật";
+        break;
+      case 1:
+        day_name = "Thứ hai";
+        break;
+      case 2:
+        day_name = "Thứ ba";
+        break;
+      case 3:
+        day_name = "Thứ tư";
+        break;
+      case 4:
+        day_name = "Thứ năm";
+        break;
+      case 5:
+        day_name = "Thứ sau";
+        break;
+      case 6:
+        day_name = "Thứ bảy";
+    }
     var date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
     var dateTime = day_name + ', ' + date + ' ' + time;
